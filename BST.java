@@ -1,6 +1,10 @@
 public class BST<E> {
     BTNode<E> root;
 
+    public BST() {
+        root = null;
+    }
+
     public BST(E data) {
         root = new BTNode<E>(data);
     }
@@ -53,4 +57,7 @@ class BTNode<E> {
         this.right = right;
     }
     // #endregion
+
+    // TODO: implement printing the tree here.
+
 }

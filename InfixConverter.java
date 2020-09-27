@@ -69,8 +69,6 @@ public class InfixConverter {
     public boolean comparePrecedence(String currentToken, String stackToken) {
         // Returns true if the current token has higher precedence than the token on the
         // stack and false if it does not
-        // TODO: there should be some edge cases in here for right to left
-        // assiciativity. Or maybe that goes somewhere else
         if (currentToken.equals("!") || currentToken.equals("^")) {
             if (currentToken.equals(stackToken)) {
                 // This is an operation with right to left associativity
@@ -83,7 +81,6 @@ public class InfixConverter {
 
     // #endregion
     public void Convert() {
-
         StringBuilder expression = new StringBuilder();
 
         for (String token : tokens) {
