@@ -1,4 +1,22 @@
 public class BST<E> {
+    public static void main(String[] args) {
+        BTNode<Integer> root = new BTNode(5);
+        BTNode<Integer> n1 = new BTNode(1);
+        BTNode<Integer> n2 = new BTNode(3);
+        BTNode<Integer> n3 = new BTNode(4);
+        BTNode<Integer> n4 = new BTNode(4);
+
+        root.setLeft(n1);
+        root.setRight(n2);
+        n2.setLeft(n3);
+        n3.setLeft(n4);
+
+        BST<Integer> tree = new BST<>(root);
+
+        System.out.println(tree.getHeight(tree.getRoot()));
+
+    }
+
     BTNode<E> root;
 
     public BST() {
@@ -19,6 +37,13 @@ public class BST<E> {
 
     public void setRoot(BTNode<E> root) {
         this.root = root;
+    }
+
+    // TODO: implement printing the tree here.
+
+    // TODO: implement height function
+    public int getHeight(BTNode<E> node) {
+        return (node == null) ? -1 : 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
     }
 }
 
@@ -57,7 +82,5 @@ class BTNode<E> {
         this.right = right;
     }
     // #endregion
-
-    // TODO: implement printing the tree here.
 
 }
