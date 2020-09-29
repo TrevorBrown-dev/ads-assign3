@@ -2,19 +2,39 @@ import java.util.Stack;
 
 public class InfixConverter {
     public static void main(String[] args) {
-        InfixConverter c = new InfixConverter("2 ^ 2 ^ 3 $");
+        // Convert to postfix
+        InfixConverter c = new InfixConverter(" ( 2 + 4 ) * 3 $");
+
+        String infix = c.getExpression();
+        String postfix = c.Convert();
+
+        System.out.println(infix);
+        System.out.println(postfix);
+
+        // build the tree.
+        ExpressionTree tree = new ExpressionTree();
+
+        // Print fully parenthesized
+        tree.buildTree(postfix);
+
+        // TODO: Print tree diagram
+
+        // TODO: Print answer
+        // TODO: bring in postfix evaluatior (It's on my pc at home)
+        postfix += "$";
+        System.out.println(postfix);
 
     }
 
     private String[] tokens;
     private Stack<String> operatorStack;
+    private String expression;
 
     public InfixConverter(String expression) {
         expression = expression.trim();
-        expression = expression.replaceAll(" +", " ");
-        tokens = expression.split(" +");
+        this.expression = expression.replaceAll(" +", " ");
+        tokens = this.expression.split(" +");
         operatorStack = new Stack<String>();
-        Convert();
     }
 
     // #region Helper Functions
@@ -22,6 +42,14 @@ public class InfixConverter {
     // string
     public void appendToken(StringBuilder expression, String token) {
         expression.append(token + ' ');
+    }
+
+    public String getExpression() {
+        return expression.substring(0, expression.length() - 2);
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 
     public String getLastToken(StringBuilder expression) {
@@ -69,7 +97,7 @@ public class InfixConverter {
     public boolean comparePrecedence(String currentToken, String stackToken) {
         // Returns true if the current token has higher precedence than the token on the
         // stack and false if it does not
-        if (currentToken.equals("!") || currentToken.equals("^")) {
+        if (Utils.isUnaryOperator(currentToken)) {
             if (currentToken.equals(stackToken)) {
                 // This is an operation with right to left associativity
                 return true;
@@ -80,11 +108,11 @@ public class InfixConverter {
     }
 
     // #endregion
-    public void Convert() {
+    public String Convert() {
         StringBuilder expression = new StringBuilder();
 
         for (String token : tokens) {
-            if (token.matches("-?\\d+")) {
+            if (Utils.isDigit(token)) {
                 // We always append digits to the string.
                 appendToken(expression, token);
             } else {
@@ -119,7 +147,7 @@ public class InfixConverter {
                 }
             }
         }
-        System.out.println(expression);
+        return expression.toString();
     }
 
 }

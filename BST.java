@@ -39,12 +39,40 @@ public class BST<E> {
         this.root = root;
     }
 
+    public String inOrder(boolean parenthesized) {
+        StringBuilder sb = new StringBuilder();
+        inOrder(sb, root, parenthesized);
+        return sb.toString();
+    }
+
+    private void inOrder(StringBuilder sb, BTNode<E> root, boolean parenthesized) {
+
+        if (root == null)
+            return;
+
+        if (parenthesized)
+            sb.append("( ");
+
+        inOrder(sb, root.getLeft(), parenthesized);
+        sb.append(root.toString() + " ");
+        inOrder(sb, root.getRight(), parenthesized);
+
+        if (parenthesized)
+            sb.append(") ");
+    }
+
     // TODO: implement printing the tree here.
 
     // TODO: implement height function
     public int getHeight(BTNode<E> node) {
         return (node == null) ? -1 : 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
     }
+
+    @Override
+    public String toString() {
+        return inOrder(false);
+    }
+
 }
 
 class BTNode<E> {
@@ -81,6 +109,10 @@ class BTNode<E> {
     public void setRight(BTNode<E> right) {
         this.right = right;
     }
+
     // #endregion
+    public String toString() {
+        return data.toString();
+    }
 
 }

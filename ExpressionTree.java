@@ -2,7 +2,8 @@ import java.util.Stack;
 
 public class ExpressionTree {
     public static void main(String[] args) {
-
+        ExpressionTree tree = new ExpressionTree();
+        tree.buildTree("2 4 + -3.5 *");
     }
 
     private BST<String> tree;
@@ -14,32 +15,41 @@ public class ExpressionTree {
     public void buildTree(String expression) {
         // main logic for method goes here.
         String[] tokens = expression.trim().split(" +");
-        System.out.println(tokens);
+        // System.out.println(tokens);
 
         Stack<BTNode<String>> tokenStack = new Stack<>();
 
         for (String token : tokens) {
-            if (isDigit(token)) {
-                tokenStack.push(new BTNode<String>(token));
-            } else if (isUnaryOperator(token)) {
-                BTNode<String> root = new BTNode<>(token);
-                root.setLeft(tokenStack.pop());
-                tokenStack.push(root);
+            // Turn the token into a node.
+            BTNode<String> tokenNode = new BTNode<>(token);
+
+            if (Utils.isDigit(token)) {
+                // Always push digits to the stack.
+                tokenStack.push(tokenNode);
+
+            } else if (Utils.isUnaryOperator(token)) {
+                tokenNode.setLeft(tokenStack.pop());
+                tokenStack.push(tokenNode);
             } else {
-                BTNode<String> root = new BTNode<>(token);
-                root.setRight(tokenStack.pop());
-                root.setLeft(tokenStack.pop());
-                tokenStack.push(root);
+                tokenNode.setRight(tokenStack.pop());
+                tokenNode.setLeft(tokenStack.pop());
+                tokenStack.push(tokenNode);
             }
         }
-        // Always push numbers
+        // Construction is done, now make it a BST.
+        tree.setRoot(tokenStack.pop());
+        System.out.println(tree.inOrder(true));
+        // System.out.println(tree.inOrder(false));
     }
 
-    public boolean isDigit(String token) {
-        return token.matches("-?\\d+");
+}
+
+class Utils {
+    public static boolean isDigit(String token) {
+        return token.matches("-?\\d+\\.?\\d*");
     }
 
-    public boolean isUnaryOperator(String token) {
+    public static boolean isUnaryOperator(String token) {
         return token.matches("[\\!\\^]");
     }
 }
