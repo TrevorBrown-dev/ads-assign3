@@ -17,13 +17,13 @@ public class InfixConverter {
         // Print fully parenthesized
         tree.buildTree(postfix);
 
-        // TODO: Print tree diagram
-
-        // TODO: Print answer
-        // TODO: bring in postfix evaluatior (It's on my pc at home)
         postfix += "$";
-        System.out.println(postfix);
+        // Print the answer
+        ExpressionEvaluator e = new ExpressionEvaluator(postfix);
+        e.evaluate();
+        // System.out.println(postfix);
 
+        // TODO: Print tree diagram
     }
 
     private String[] tokens;
