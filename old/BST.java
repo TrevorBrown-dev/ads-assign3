@@ -1,5 +1,8 @@
+package old;
+
 public class BST<E> {
     public static void main(String[] args) {
+        // Testing the tree
         BTNode<Integer> root = new BTNode(5);
         BTNode<Integer> n1 = new BTNode(1);
         BTNode<Integer> n2 = new BTNode(3);
