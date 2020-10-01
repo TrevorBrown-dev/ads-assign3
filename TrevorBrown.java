@@ -3,36 +3,58 @@ import java.util.Stack;
 import java.util.Hashtable;
 
 public class TrevorBrown {
+
     public static void eval(String expression) {
         // Convert to postfix
-        InfixConverter c = new InfixConverter(expression);
+        InfixConverter c;
+        try {
+            c = new InfixConverter(expression);
 
-        String infix = c.getExpression();
-        String postfix = c.Convert();
+            String infix = c.getExpression();
+            String postfix = c.Convert();
 
-        System.out.printf("Infix: %s\n", infix);
-        System.out.printf("Postfix: %s\n", postfix);
+            System.out.printf("Infix: %s\n", infix);
+            System.out.printf("Postfix: %s\n", postfix);
 
-        // build the tree.
-        ExpressionTree tree = new ExpressionTree();
+            // build the tree.
+            ExpressionTree tree = new ExpressionTree();
 
-        // Print fully parenthesized
-        System.out.println("Fully parenthesized expression: ");
-        tree.buildTree(postfix);
+            // Print fully parenthesized
+            System.out.println("Fully parenthesized expression: ");
+            tree.buildTree(postfix);
 
-        postfix += "$";
-        // Print the answer
-        ExpressionEvaluator e = new ExpressionEvaluator(postfix);
-        e.evaluate();
+            postfix += "$";
+            // Print the answer
+            ExpressionEvaluator e = new ExpressionEvaluator(postfix);
+            e.evaluate();
 
-        // Print the tree
-        System.out.println("Tree diagram:\n\n");
-        tree.printTree();
+            // Print the tree
+            System.out.println("Tree diagram:\n\n");
+            tree.printTree();
+        } catch (Exception e) {
+            System.out.println("\n\nERROR: Please enter a valid expression!\n\n");
+        }
+
     }
 
     public static void main(String[] args) {
-        // TODO: implement driver class that takes user input
-        eval(" ( 2 + 4 ) * 3 $");
+
+        Scanner kb = new Scanner(System.in);
+        System.out.println("Welcome to the ultimate expression evaluator!\n"
+                + "Please enter your expression in infix notation. and end the expression with a '$'\n"
+                + "Ex: '( 2 + 5 ) * 3 ^ 5 ^ 5 $'\n" + "Type 'exit at any time to terminate the program!");
+
+        String input = "";
+        while (!input.toLowerCase().equals("exit")) {
+            System.out.print("Input: ");
+            input = kb.nextLine();
+
+            if (!input.toLowerCase().equals("exit")) {
+                eval(input);
+            }
+
+        }
+        System.out.println("Goodbye!");
     }
 }
 
