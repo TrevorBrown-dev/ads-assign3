@@ -1,29 +1,37 @@
 import java.util.Stack;
 
 public class InfixConverter {
-    public static void main(String[] args) {
+
+    public static void eval(String expression) {
         // Convert to postfix
-        InfixConverter c = new InfixConverter(" ( 2 + 4 ) * 3 $");
+        InfixConverter c = new InfixConverter(expression);
 
         String infix = c.getExpression();
         String postfix = c.Convert();
 
-        System.out.println(infix);
-        System.out.println(postfix);
+        System.out.printf("Infix: %s\n", infix);
+        System.out.printf("Postfix: %s\n", postfix);
 
         // build the tree.
         ExpressionTree tree = new ExpressionTree();
 
         // Print fully parenthesized
+        System.out.println("Fully parenthesized expression: ");
         tree.buildTree(postfix);
 
         postfix += "$";
         // Print the answer
         ExpressionEvaluator e = new ExpressionEvaluator(postfix);
         e.evaluate();
-        // System.out.println(postfix);
 
-        // TODO: Print tree diagram
+        // Print the tree
+        System.out.println("Tree diagram:\n\n");
+        tree.printTree();
+    }
+
+    public static void main(String[] args) {
+        // TODO: implement driver class that takes user input
+        eval(" ( 2 + 4 ) * 3 $");
     }
 
     private String[] tokens;

@@ -12,6 +12,10 @@ public class ExpressionTree {
         tree = new BST<String>();
     }
 
+    public void printTree() {
+        this.tree.printTree();
+    }
+
     public void buildTree(String expression) {
         // main logic for method goes here.
         String[] tokens = expression.trim().split(" +");

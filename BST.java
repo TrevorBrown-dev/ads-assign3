@@ -62,10 +62,44 @@ public class BST<E> {
     }
 
     // TODO: implement printing the tree here.
+    private void printTree(BTNode<E> root, int space) {
+        int COUNT = 5;
+        // Base case
+        if (root == null)
+            return;
 
-    // TODO: implement height function
+        // Increase distance between levels
+        space += COUNT;
+
+        // Process right child first
+        printTree(root.getRight(), space);
+
+        // Print current node after space
+        // count
+        System.out.print("\n");
+        for (int i = COUNT; i < space; i++)
+            System.out.print(" ");
+        System.out.print(root.getData() + "\n");
+
+        // Process left child
+        printTree(root.getLeft(), space);
+
+    }
+
+    public void printTree() {
+        printTree(this.root, 0);
+    }
+
     public int getHeight(BTNode<E> node) {
         return (node == null) ? -1 : 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
+    }
+
+    public int getDepth(BTNode<E> root) {
+        return getDepth(root, getHeight(this.root));
+    }
+
+    private int getDepth(BTNode<E> root, int height) {
+        return height - getHeight(root);
     }
 
     @Override
