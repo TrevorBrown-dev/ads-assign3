@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Stack;
+import java.io.File;
 import java.util.Hashtable;
 
 public class TrevorBrown {
@@ -33,6 +34,7 @@ public class TrevorBrown {
             tree.printTree();
         } catch (Exception e) {
             System.out.println("\n\nERROR: Please enter a valid expression!\n\n");
+            e.printStackTrace();
         }
 
     }
@@ -40,22 +42,33 @@ public class TrevorBrown {
     public static void main(String[] args) {
 
         Scanner kb = new Scanner(System.in);
-        System.out.println("Welcome to the ultimate expression evaluator!\n"
-                + "Please enter your expression in infix notation. and end the expression with a '$'\n"
-                + "Ex: '( 2 + 5 ) * 3 ^ 5 ^ 5 $'\n" + "Type 'exit at any time to terminate the program!");
 
         String input = "";
-        while (!input.toLowerCase().equals("exit")) {
-            System.out.print("Input: ");
-            input = kb.nextLine();
 
-            if (!input.toLowerCase().equals("exit")) {
+        try {
+            File in = new File("in.dat");
+            Scanner fs = new Scanner(in);
+            while (fs.hasNextLine()) {
+                input = fs.nextLine();
                 input = input.substring(0, input.indexOf("$") + 1);
                 eval(input);
+                System.out.println("\n\nPress <ENTER> to continue");
+                kb.nextLine();
             }
-
+        } catch (Exception e) {
+            System.out.println("Error!");
+            e.printStackTrace();
         }
-        System.out.println("Goodbye!");
+        // while (!input.toLowerCase().equals("exit")) {
+        // input = kb.nextLine();
+
+        // if (!input.toLowerCase().equals("exit")) {
+        // input = input.substring(0, input.indexOf("$") + 1);
+        // eval(input);
+        // }
+
+        // }
+        System.out.println("End of file!\n\nGoodbye!");
     }
 }
 
@@ -134,6 +147,13 @@ class ExpressionEvaluator {
                         if (temp == 0)
                             throw new IllegalArgumentException("division by 0");
                         operandStack.push(operandStack.pop() / temp);
+                        break;
+                    case "%":
+                        if (operandStack.isEmpty())
+                            throw new IllegalArgumentException("unexpected operator(s)");
+                        if (temp == 0)
+                            throw new IllegalArgumentException("division by 0");
+                        operandStack.push(operandStack.pop() % temp);
                         break;
                     case "^":
                         if (operandStack.isEmpty())
