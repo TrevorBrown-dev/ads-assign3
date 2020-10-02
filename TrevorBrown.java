@@ -22,8 +22,8 @@ public class TrevorBrown {
             // Print fully parenthesized
             System.out.println("Fully parenthesized expression: ");
             tree.buildTree(postfix);
-
             postfix += "$";
+
             // Print the answer
             ExpressionEvaluator e = new ExpressionEvaluator(postfix);
             e.evaluate();
@@ -50,7 +50,7 @@ public class TrevorBrown {
             input = kb.nextLine();
 
             if (!input.toLowerCase().equals("exit")) {
-                // input = input.substring(0, input.indexOf("$") + 1);
+                input = input.substring(0, input.indexOf("$") + 1);
                 eval(input);
             }
 
@@ -292,7 +292,6 @@ class BST<E> {
             sb.append(") ");
     }
 
-    // TODO: implement printing the tree here.
     private void printTree(BTNode<E> root, int space) {
         int COUNT = 5;
         // Base case
@@ -385,7 +384,7 @@ class BTNode<E> {
 class ExpressionTree {
     public static void main(String[] args) {
         ExpressionTree tree = new ExpressionTree();
-        tree.buildTree("2 4 + -3.5 *");
+        tree.buildTree("2 4 * / -3.5");
     }
 
     private BST<String> tree;
@@ -559,6 +558,7 @@ class InfixConverter {
                             while (!operatorStack.isEmpty() && !comparePrecedence(token, operatorStack.peek())) {
                                 appendToken(expression, operatorStack.pop());
                             }
+                            operatorStack.push(token);
                         }
                 }
             }
