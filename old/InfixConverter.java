@@ -4,36 +4,12 @@ import java.util.Stack;
 
 public class InfixConverter {
 
-    public static void eval(String expression) {
-        // Convert to postfix
-        InfixConverter c = new InfixConverter(expression);
+    public static void main(String[] args) {
+        InfixConverter c = new InfixConverter("2 * 4 / 13 $");
 
         String infix = c.getExpression();
         String postfix = c.Convert();
-
-        System.out.printf("Infix: %s\n", infix);
-        System.out.printf("Postfix: %s\n", postfix);
-
-        // build the tree.
-        ExpressionTree tree = new ExpressionTree();
-
-        // Print fully parenthesized
-        System.out.println("Fully parenthesized expression: ");
-        tree.buildTree(postfix);
-
-        postfix += "$";
-        // Print the answer
-        ExpressionEvaluator e = new ExpressionEvaluator(postfix);
-        e.evaluate();
-
-        // Print the tree
-        System.out.println("Tree diagram:\n\n");
-        tree.printTree();
-    }
-
-    public static void main(String[] args) {
-        // TODO: implement driver class that takes user input
-        eval(" ( 2 + 4 ) * 3 $");
+        System.out.println("Infix: " + infix + "\nPostfix: " + postfix);
     }
 
     private String[] tokens;
@@ -141,6 +117,7 @@ public class InfixConverter {
                         while (!operatorStack.isEmpty()) {
                             appendToken(expression, operatorStack.pop());
                         }
+
                         break;
                     default:
                         if (operatorStack.isEmpty())
@@ -153,6 +130,7 @@ public class InfixConverter {
                             while (!operatorStack.isEmpty() && !comparePrecedence(token, operatorStack.peek())) {
                                 appendToken(expression, operatorStack.pop());
                             }
+                            appendToken(expression, token);
                         }
                 }
             }

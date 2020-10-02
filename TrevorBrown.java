@@ -50,6 +50,7 @@ public class TrevorBrown {
             input = kb.nextLine();
 
             if (!input.toLowerCase().equals("exit")) {
+                // input = input.substring(0, input.indexOf("$") + 1);
                 eval(input);
             }
 
